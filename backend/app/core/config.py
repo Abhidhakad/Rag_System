@@ -9,9 +9,9 @@ class Config:
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = os.getenv("DEBUG", "false").lower() == "true"
 
-    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
-    EMBEDDING_MODEL: str = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
-    LLM_MODEL: str = os.getenv("LLM_MODEL", "gpt-4o-mini")
+    GOOGLE_API_KEY: str = os.getenv("GOOGLE_API_KEY", "")
+    EMBEDDING_MODEL: str = os.getenv("EMBEDDING_MODEL", "models/gemini-embedding-001")
+    LLM_MODEL: str = os.getenv("LLM_MODEL", "gemini-2.5-flash")
     LLM_TEMPERATURE: float = float(os.getenv("LLM_TEMPERATURE", "0.3"))
     LLM_MAX_TOKENS: int = int(os.getenv("LLM_MAX_TOKENS", "1024"))
 

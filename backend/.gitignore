@@ -6,3 +6,5 @@ __pycache__/
 *.pyc
 *.pyo
 .DS_Store
+server_err.log
+server_out.log

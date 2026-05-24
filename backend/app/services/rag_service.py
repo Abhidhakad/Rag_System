@@ -1,11 +1,11 @@
 import logging
 
-from openai import OpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 from app.core.config import config
 from app.core.exceptions import LLMError
 from app.models.schemas import Citation
-from app.services.embedding_service import generate_embedding, get_openai_client
+from app.services.embedding_service import generate_embedding
 from app.services.vector_service import vector_store
 
 logger = logging.getLogger(__name__)
@@ -47,18 +47,18 @@ def answer_question(question: str) -> tuple[str, list[Citation]]:
     ]
 
     try:
-        client = get_openai_client()
-        response = client.chat.completions.create(
+        llm = ChatGoogleGenerativeAI(
             model=config.LLM_MODEL,
             temperature=config.LLM_TEMPERATURE,
-            max_tokens=config.LLM_MAX_TOKENS,
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {question}"},
-            ],
+            max_output_tokens=config.LLM_MAX_TOKENS,
         )
-        answer = response.choices[0].message.content.strip()
-        logger.info(f"Generated answer for question (tokens={response.usage.total_tokens if response.usage else 'N/A'})")
+        messages = [
+            ("system", SYSTEM_PROMPT),
+            ("human", f"Context:\n{context}\n\nQuestion: {question}"),
+        ]
+        response = llm.invoke(messages)
+        answer = response.content.strip()
+        logger.info("Generated answer for question")
         return answer, citations
 
     except Exception as e:

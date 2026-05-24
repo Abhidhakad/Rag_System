@@ -1,6 +1,11 @@
 # RAG Document Q&A System
 
-A production-ready Retrieval-Augmented Generation system for querying PDF documents using natural language. Built with FastAPI, ChromaDB, and OpenAI.
+A production-ready Retrieval-Augmented Generation system for querying PDF documents using natural language. Built with FastAPI, ChromaDB, and Google Gemini.
+
+# Demo Video:
+```
+https://drive.google.com/file/d/1O90ifpHE5jorU6L3Qwtt7wHb9TQyEWSd/view?usp=drive_link
+```  
 
 ## Architecture
 
@@ -14,9 +19,9 @@ User Asks Question → Embed Query → Semantic Search → Retrieve Chunks
 
 **Stack:**
 - Backend: FastAPI (Python)
-- Embeddings: OpenAI `text-embedding-3-small`
+- Embeddings: Google `text-embedding-004`
 - Vector DB: ChromaDB (persistent)
-- LLM: OpenAI GPT-4o-mini
+- LLM: Google Gemini 2.5 Flash
 - Frontend: React + Tailwind CSS
 
 ## Setup
@@ -25,7 +30,7 @@ User Asks Question → Embed Query → Semantic Search → Retrieve Chunks
 
 - Python 3.11+
 - Node.js 18+
-- OpenAI API key
+- Google AI API key ([get one free from Google AI Studio](https://aistudio.google.com/apikey))
 
 ### Backend
 
@@ -34,7 +39,7 @@ cd backend
 python -m venv venv
 source venv/bin/activate   # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-cp .env.example .env       # Add your OPENAI_API_KEY
+cp .env.example .env       # Add your GOOGLE_API_KEY
 uvicorn app.main:app --reload
 ```
 
@@ -54,9 +59,9 @@ The UI will be available at `http://localhost:5173`.
 
 | Variable | Default | Description |
 |---|---|---|
-| `OPENAI_API_KEY` | — | OpenAI API key (required) |
-| `EMBEDDING_MODEL` | `text-embedding-3-small` | Embedding model name |
-| `LLM_MODEL` | `gpt-4o-mini` | LLM model for answer generation |
+| `GOOGLE_API_KEY` | — | Google AI API key (required) |
+| `EMBEDDING_MODEL` | `models/text-embedding-001` | Gemini embedding model name |
+| `LLM_MODEL` | `gemini-2.5-flash` | Gemini LLM model for answer generation |
 | `LLM_TEMPERATURE` | `0.3` | LLM temperature (lower = more factual) |
 | `LLM_MAX_TOKENS` | `1024` | Max tokens for responses |
 | `CHROMA_PERSIST_DIR` | `chroma_db` | Vector DB storage path |
@@ -133,7 +138,7 @@ Ask a question about uploaded documents.
 ## Assumptions
 
 - PDF is the primary document format (extensible to others)
-- OpenAI is used for both embeddings and LLM (swapable via config)
+- Google Gemini is used for both embeddings and LLM (swapable via config)
 - Documents are processed synchronously on upload
 - ChromaDB runs embedded (no separate server needed)
 - Queries are stateless (no conversation history)
@@ -149,4 +154,3 @@ Ask a question about uploaded documents.
 - Streaming LLM responses
 - Document management (list, delete)
 - Rate limiting and request validation
-- Docker Compose setup
