@@ -4,3 +4,5 @@ dist/
 .env.*.local
 *.log
 .DS_Store
+vite_err.log
+vite_out.log
