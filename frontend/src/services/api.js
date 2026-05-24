@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const client = axios.create({
-  baseURL: '/api',
+  baseURL: 'https://rag-system-duei.onrender.com/api',
   headers: { 'Content-Type': 'application/json' },
   timeout: 60000,
 })
